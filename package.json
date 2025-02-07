@@ -1,11 +1,14 @@
 {
   "name": "jsoneditor-cli",
-  "author": "Artur Sopelnik",
+  "author": "Artur Sopelnik <artur.sopelnik93@gmail.com>",
   "license": "MIT",
   "type": "module",
   "version": "1.0.0",
   "main": "jsoneditor-cli.js",
-  "repository": "artursopelnik/jsoneditor-cli",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/artursopelnik/jsoneditor-cli.git"
+  },
   "bin": {
     "jsoneditor-cli": "./jsoneditor-cli.js"
   },
@@ -25,7 +28,9 @@
   },
   "files": [
     "index.html",
-    "jsoneditor-cli.js"
+    "jsoneditor-cli.js",
+    "LICENSE",
+    "readme.md"
   ],
   "keywords": [
     "jsoneditor",
