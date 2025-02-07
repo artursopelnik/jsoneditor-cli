@@ -1,5 +1,7 @@
 # JSONEditor-CLI
 
+[![npm version](https://badge.fury.io/js/jsoneditor-cli.svg)](http://badge.fury.io/js/ember-cli-jsoneditor)
+
 JSONEditor-CLI is a command-line tool for Node.js that provides an interactive JSON editing experience using [JSONEditor](https://github.com/josdejong/jsoneditor). Whether you need to quickly view or edit JSON files, JSONEditor-CLI makes it simple and efficient.
 
 ![JSONEditor-CLI](jsoneditor-cli.png)
@@ -70,7 +72,7 @@ Any options provided via the command line will override the configuration file s
 
 ## Contributing
 
-Contributions are welcome! If you find any issues or have ideas for improvements, please open an issue or submit a pull request on [GitHub](https://github.com/yourusername/jsoneditor-cli).
+Contributions are welcome! If you find any issues or have ideas for improvements, please open an issue or submit a pull request on [GitHub](https://github.com/artursopelnik/jsoneditor-cli).
 
 ## License
 
