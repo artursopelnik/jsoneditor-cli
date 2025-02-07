@@ -43,7 +43,7 @@ jsoneditor-cli [options] <file>
   Set the editor mode. Available modes: `tree` (default), `code`, `view`, or `text`.
 
 - `-p, --port <number>`  
-  Specify the port for the web interface (default: `3000`).
+  Specify the port for the web interface (default: `5053`).
 
 - `-h, --help`  
   Display help and usage information.
