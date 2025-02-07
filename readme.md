@@ -2,6 +2,8 @@
 
 JSONEditor-CLI is a command-line tool for Node.js that provides an interactive JSON editing experience using [JSONEditor](https://github.com/josdejong/jsoneditor). Whether you need to quickly view or edit JSON files, JSONEditor-CLI makes it simple and efficient.
 
+![JSONEditor-CLI](jsoneditor-cli.png)
+
 ## Features
 
 - **JSON Editing that runs on command line**: Edit your JSON files directly in your package.json.
