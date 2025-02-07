@@ -3,7 +3,7 @@
   "author": "Artur Sopelnik",
   "license": "MIT",
   "type": "module",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "main": "jsoneditor-cli.js",
   "repository": "artursopelnik/jsoneditor-cli",
   "bin": {
