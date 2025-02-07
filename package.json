@@ -1,7 +1,13 @@
 {
   "name": "jsoneditor-cli",
-  "private": true,
-  "version": "0.0.1",
+  "author": "Artur Sopelnik",
+  "license": "MIT",
+  "version": "0.0.2",
+  "main": "jsoneditor-cli.js",
+  "repository": "artursopelnik/jsoneditor-cli",
+  "bin": {
+    "jsoneditor-cli": "./jsoneditor-cli.js"
+  },
   "scripts": {
     "start": "node jsoneditor-cli.js",
     "format": "prettier . --write --config .prettierrc.json",
@@ -12,5 +18,16 @@
     "express": "^4.21.2",
     "jsoneditor": "^10.1.2",
     "prettier": "^3.4.2"
-  }
+  },
+  "engines": {
+    "node": ">=14.8.0"
+  },
+  "files": [
+    "index.html",
+    "jsoneditor-cli.js"
+  ],
+  "keywords": [
+    "jsoneditor",
+    "jsoneditor-cli"
+  ]
 }
