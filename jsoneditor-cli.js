@@ -1,38 +1,85 @@
-const { program } = require('commander')
-const express = require('express')
+const { program } = require("commander")
+const express = require("express")
+const path = require("path")
+const fs = require("fs")
 
 program
-  .name('jsoneditor-cli')
-  .description('The jsoneditor CLI is a common place for utilities.')
-  .version('0.0.1')
-
-program.option('-p, --port <number>', 'port', '5053')
+  .name("jsoneditor-cli")
+  .description("The JSONEditor CLI is a common place for utilities.")
+  .version("0.0.1")
+  .option("-p, --port <port>", "port", "5053")
+  .option("-m, --mode <mode>", "mode", "tree")
 
 program
-  .command('load')
-  .description('Load json into jsoneditor')
-  .argument('<json>', 'path to json')
+  .command("load")
+  .description("Load JSON into JSONEditor")
+  .argument("<json>", "path to JSON file")
   .action((json) => {
-    if (!json.includes('.json')) {
-      return
+    if (!json.endsWith(".json")) {
+      console.error("Fehler: Die Datei muss eine JSON-Datei sein.")
+      process.exit(1)
     }
-    const port = program.opts().port
-    loadJson(port, json)
+    const { port, mode } = program.opts()
+    loadJson(port, mode, json)
   })
 
 program.parse()
 
-function loadJson(port, json) {
+function loadJson(port, mode, json) {
+  const jsonPath = path.resolve(__dirname, json)
+
+  if (!fs.existsSync(jsonPath)) {
+    console.error(`Fehler: Datei ${jsonPath} existiert nicht.`)
+    process.exit(1)
+  }
+
   const app = express()
+  app.use(express.json())
 
-  console.log('load json here')
-  console.log(json)
+  // Statische Dateien für Frontend
+  app.use("/node_modules", express.static(path.join(__dirname, "node_modules")))
 
-  app.get('/', (req, res) => {
-    res.send('Hello World!')
+  app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")))
+
+  app.get("/getMode", (req, res) => {
+    res.set("Content-Type", "text/plain")
+    res.send(mode)
+  })
+
+  app.get("/getJSON", (req, res) => {
+    fs.readFile(jsonPath, "utf8", (err, data) => {
+      if (err) {
+        console.error("Fehler beim Lesen der JSON-Datei:", err)
+        return res.status(500).json({ error: "Fehler beim Laden der Datei" })
+      }
+      res.set("Content-Type", "application/json")
+      res.send(data)
+    })
+  })
+
+  app.put("/saveJSON", (req, res) => {
+    const updatedJson = req.body
+
+    fs.writeFile(
+      jsonPath,
+      JSON.stringify(updatedJson, null, 2),
+      "utf8",
+      (err) => {
+        if (err) {
+          console.error("Fehler beim Schreiben der Datei:", err)
+          return res
+            .status(500)
+            .json({ error: "Fehler beim Speichern der Datei" })
+        }
+        res.json({
+          message: "Datei erfolgreich aktualisiert",
+          data: updatedJson
+        })
+      }
+    )
   })
 
   app.listen(port, () => {
-    console.log(`Example app listening on port http://localhost:${port}/`)
+    console.log(`JSONEditor läuft auf: http://localhost:${port}/`)
   })
 }
