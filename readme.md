@@ -49,58 +49,22 @@ jsoneditor-cli [options] <file>
 **Edit a JSON file in tree mode (default):**
 
 ```bash
-jsoneditor-cli data.json
+jsoneditor-cli load data.json
 ```
 
 **Specify a mode (e.g., code mode):**
 
 ```bash
-jsoneditor-cli --mode code data.json
+jsoneditor-cli --mode code load data.json
 ```
 
 **Launch the web interface on a specific port:**
 
 ```bash
-jsoneditor-cli --port 4000 data.json
-```
-
-## Configuration
-
-You can configure default settings by creating a configuration file (e.g., `.jsoneditorclirc.json`) in your home directory. Example:
-
-```json
-{
-  "mode": "tree",
-  "port": 3000
-}
+jsoneditor-cli --port 4000 load data.json
 ```
 
 Any options provided via the command line will override the configuration file settings.
-
-## Development
-
-To contribute or set up the project locally for development:
-
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/yourusername/jsoneditor-cli.git
-   cd jsoneditor-cli
-   ```
-
-2. **Install dependencies:**
-
-   ```bash
-   npm install
-   ```
-
-3. **Run tests:**
-
-   ```bash
-   npm test
-   ```
-
-4. **Start developing!**
 
 ## Contributing
 
@@ -108,8 +72,5 @@ Contributions are welcome! If you find any issues or have ideas for improvements
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE.txt) file for details.
 
----
-
-Feel free to adjust the details such as repository URLs, configuration options, or feature lists to match your project's specifics. Enjoy editing your JSON with ease using JSONEditor-CLI!

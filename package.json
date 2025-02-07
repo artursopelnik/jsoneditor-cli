@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node jsoneditor-cli.js",
     "format": "prettier . --write --config .prettierrc.json",
-    "demo": "node jsoneditor-cli.js load tokens/tokens.json --port 1112 --mode view"
+    "demo": "node jsoneditor-cli --port 1112 --mode tree load tokens/tokens.json"
   },
   "dependencies": {
     "commander": "^13.1.0",
