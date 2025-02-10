@@ -20,7 +20,11 @@ program
     "engine (jsoneditor | svelte-jsoneditor)",
     "jsoneditor"
   )
-    .option("-i, --initialExpand <expandAll>", "expandAll (true | false)", true)
+  .option(
+    "-i, --initialExpand <initialExpand>",
+    "initialExpand (true | false)",
+    true
+  )
 
 program
   .command("load")
@@ -31,8 +35,8 @@ program
       console.error("Error: The file must be a JSON file.")
       process.exit(1)
     }
-    const { port, mode, engine, expand } = program.opts()
-    loadJson(port, mode, engine, expand, json)
+    const { port, mode, engine, initialExpand } = program.opts()
+    loadJson(port, mode, engine, initialExpand, json)
   })
 
 program.parse()
@@ -53,10 +57,10 @@ function getDep(dep) {
  * @param {number} port - The port number on which the server should run.
  * @param {string} mode - The editor mode (e.g., "tree", "text", "code").
  * @param {string} engine - The editor engine ("svelte-jsoneditor" or "jsoneditor").
- * @param {boolean} expand - The editor initial expand (e.g., true or false).
+ * @param {boolean} initialExpand - The editor initial expand (e.g., true or false).
  * @param {string} json - The path to the JSON file to be loaded and modified.
  */
-function loadJson(port, mode, engine, expand, json) {
+function loadJson(port, mode, engine, initialExpand, json) {
   const jsonPath = path.resolve(json)
 
   if (!fs.existsSync(jsonPath)) {
@@ -91,9 +95,9 @@ function loadJson(port, mode, engine, expand, json) {
     res.send(mode)
   })
 
-  app.get("/getExpand", (req, res) => {
+  app.get("/getInitialExpand", (req, res) => {
     res.set("Content-Type", "text/plain")
-    res.send(expand)
+    res.send(initialExpand)
   })
 
   app.get("/getJSON", (req, res) => {

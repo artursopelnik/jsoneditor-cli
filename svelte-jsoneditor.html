@@ -48,7 +48,7 @@
 
       let editor // Ensure `editor` remains globally accessible
 
-      function initializeEditor(json, mode, expand) {
+      function initializeEditor(json, mode, initialExpand) {
         const saveButton = document.getElementById("saveButton")
 
         if (mode === "table") mode = "tree"
@@ -70,9 +70,9 @@
           }
         })
 
-        if (expand) {
+        if (initialExpand) {
           setTimeout(() => {
-            editor.expand([], () => true);
+            editor.expand([], () => true)
           }, 1)
         }
       }
@@ -129,9 +129,11 @@
       document.getElementById("saveButton").addEventListener("click", saveJSON)
       ;(async function setup() {
         const mode = (await fetchText("/getMode")) || "tree"
-        const expand = (await fetchText("/getExpand")) || true
+        const initialExpandText =
+          (await fetchText("/getInitialExpand")) || "true"
+        const initialExpand = initialExpandText === "true"
         const json = await fetchJSON("/getJSON")
-        initializeEditor(json, mode, expand)
+        initializeEditor(json, mode, initialExpand)
       })()
     </script>
   </body>

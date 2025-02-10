@@ -15,7 +15,7 @@
   "scripts": {
     "start": "node ./jsoneditor-cli.js",
     "format": "prettier . --write --config .prettierrc.json",
-    "demo": "node ./jsoneditor-cli.js --initialExpand false --engine svelte-jsoneditor --port 1112 --mode tree load tokens/tokens.json"
+    "demo": "node ./jsoneditor-cli.js --initialExpand true --engine svete-jsoneditor --port 1112 --mode tree load tokens/tokens.json"
   },
   "dependencies": {
     "commander": "^13.1.0",

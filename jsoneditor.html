@@ -67,7 +67,7 @@
         }
       }
 
-      function initializeEditor(json, mode, expand) {
+      function initializeEditor(json, mode, initialExpand) {
         const saveButton = document.getElementById("saveButton")
 
         if (mode === "tree") saveButton.classList.add("active")
@@ -80,7 +80,8 @@
 
         editor = new JSONEditor(container, options)
         editor.set(json)
-        if (expand) {
+
+        if (initialExpand) {
           editor.expandAll()
         }
       }
@@ -111,9 +112,11 @@
       document.getElementById("saveButton").addEventListener("click", saveJSON)
       ;(async function setup() {
         const mode = (await fetchText("/getMode")) || "tree"
-        const expand = (await fetchText("/getExpand")) || true
+        const initialExpandText =
+          (await fetchText("/getInitialExpand")) || "true"
+        const initialExpand = initialExpandText === "true"
         const json = await fetchJSON("/getJSON")
-        initializeEditor(json, mode, expand)
+        initializeEditor(json, mode, initialExpand)
       })()
     </script>
   </body>
