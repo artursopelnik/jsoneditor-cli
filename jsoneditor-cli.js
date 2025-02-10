@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename)
 program
   .name("jsoneditor-cli")
   .description("The JSONEditor CLI is a common place for utilities.")
-  .version("1.0.1")
+  .version("1.0.3")
   .option("-p, --port <port>", "port", "5053")
   .option("-m, --mode <mode>", "mode (tree | text | code)", "tree")
   .option(
@@ -67,11 +67,11 @@ function loadJson(port, mode, engine, json) {
   // save static files
   app.use(
     "/jsoneditor",
-    express.static(getDep("/node_modules/jsoneditor/dist"))
+    express.static(getDep("node_modules/jsoneditor/dist"))
   )
   app.use(
     "/vanilla-jsoneditor",
-    express.static(getDep("/node_modules/vanilla-jsoneditor"))
+    express.static(getDep("node_modules/vanilla-jsoneditor"))
   )
 
   app.use(express.json())
