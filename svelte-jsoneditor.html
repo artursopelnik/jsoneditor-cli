@@ -3,12 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>JSON Editor</title>
-    <link
-      rel="stylesheet"
-      href="./node_modules/jsoneditor/dist/jsoneditor.min.css"
-    />
-    <script src="./node_modules/jsoneditor/dist/jsoneditor.min.js"></script>
+    <title>Svelte JSON Editor</title>
     <style>
       .save-btn {
         border: 1px solid #ccc;
@@ -23,12 +18,19 @@
         transition: background 0.2s;
         display: none;
       }
+
       .save-btn:hover {
         background: #d6d6d6;
       }
+
       .save-btn.active {
         display: block;
       }
+
+      .jse-menu .jse-button[title*="table mode"] {
+        display: none !important;
+      }
+
       #jsoneditor {
         width: 100%;
         height: 100vh;
@@ -41,8 +43,32 @@
 
     <button class="save-btn" id="saveButton">Save</button>
 
-    <script>
+    <script type="module">
+      import { createJSONEditor } from "/vanilla-jsoneditor/standalone.js"
+
       let editor // Ensure `editor` remains globally accessible
+
+      function initializeEditor(json, mode) {
+        const saveButton = document.getElementById("saveButton")
+        if (mode === "table") mode = "tree"
+        if (mode === "code") mode = "text"
+
+        if (mode === "tree") saveButton.classList.add("active")
+
+        const container = document.getElementById("jsoneditor")
+
+        let content = {
+          mode,
+          json
+        }
+
+        editor = createJSONEditor({
+          target: container,
+          props: {
+            content
+          }
+        })
+      }
 
       async function fetchMode(url) {
         try {
@@ -70,25 +96,11 @@
         }
       }
 
-      function initializeEditor(jsonData, mode) {
-        const saveButton = document.getElementById("saveButton")
-        if (mode === "tree") saveButton.classList.add("active")
-
-        const container = document.getElementById("jsoneditor")
-        const options = {
-          mode,
-          mainMenuBar: true
-        }
-
-        editor = new JSONEditor(container, options)
-        editor.set(jsonData)
-      }
-
       async function saveJSON() {
         if (!confirm("Please confirm saving.")) return
 
         try {
-          const updatedJson = editor.get()
+          const updatedJson = editor.get().json
           const response = await fetch("/saveJSON", {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -110,8 +122,8 @@
       document.getElementById("saveButton").addEventListener("click", saveJSON)
       ;(async function setup() {
         const mode = (await fetchMode("/getMode")) || "tree"
-        const jsonData = await fetchJSON("/getJSON")
-        initializeEditor(jsonData, mode)
+        const json = await fetchJSON("/getJSON")
+        initializeEditor(json, mode)
       })()
     </script>
   </body>

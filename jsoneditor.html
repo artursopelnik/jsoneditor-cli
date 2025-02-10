@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JSON Editor</title>
+    <link rel="stylesheet" href="/jsoneditor/jsoneditor.min.css" />
+    <script src="/jsoneditor/jsoneditor.min.js"></script>
+    <style>
+      .save-btn {
+        border: 1px solid #ccc;
+        color: #333;
+        border-radius: 4px;
+        background: #e0e0e0;
+        padding: 6px 16px;
+        position: fixed;
+        right: 1rem;
+        bottom: 1rem;
+        cursor: pointer;
+        transition: background 0.2s;
+        display: none;
+      }
+      .save-btn:hover {
+        background: #d6d6d6;
+      }
+      .save-btn.active {
+        display: block;
+      }
+      #jsoneditor {
+        width: 100%;
+        height: 100vh;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="jsoneditor"></div>
+
+    <button class="save-btn" id="saveButton">Save</button>
+
+    <script>
+      let editor // Ensure `editor` remains globally accessible
+
+      async function fetchMode(url) {
+        try {
+          const response = await fetch(url)
+          if (!response.ok)
+            throw new Error(`Error: ${response.status} ${response.statusText}`)
+          return await response.text()
+        } catch (error) {
+          console.error("Error fetching mode:", error)
+          alert("Failed to load mode. Check the console for details.")
+          return {}
+        }
+      }
+
+      async function fetchJSON(url) {
+        try {
+          const response = await fetch(url)
+          if (!response.ok)
+            throw new Error(`Error: ${response.status} ${response.statusText}`)
+          return await response.json()
+        } catch (error) {
+          console.error("Error fetching JSON data:", error)
+          alert("Failed to load JSON data. Check the console for details.")
+          return {}
+        }
+      }
+
+      function initializeEditor(jsonData, mode) {
+        const saveButton = document.getElementById("saveButton")
+        if (mode === "tree") saveButton.classList.add("active")
+
+        const container = document.getElementById("jsoneditor")
+        const options = {
+          mode,
+          mainMenuBar: true
+        }
+
+        editor = new JSONEditor(container, options)
+        editor.set(jsonData)
+        editor.expandAll()
+      }
+
+      async function saveJSON() {
+        if (!confirm("Please confirm saving.")) return
+
+        try {
+          const updatedJson = editor.get()
+          const response = await fetch("/saveJSON", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedJson)
+          })
+
+          if (!response.ok)
+            throw new Error(`Error: ${response.status} ${response.statusText}`)
+
+          const result = await response.json()
+          console.log("Save successful:", result)
+          alert("JSON saved successfully!")
+        } catch (error) {
+          console.error("Error saving JSON:", error)
+          alert("Failed to save JSON. Check the console for details.")
+        }
+      }
+
+      document.getElementById("saveButton").addEventListener("click", saveJSON)
+      ;(async function setup() {
+        const mode = (await fetchMode("/getMode")) || "tree"
+        const jsonData = await fetchJSON("/getJSON")
+        initializeEditor(jsonData, mode)
+      })()
+    </script>
+  </body>
+</html>

@@ -4,12 +4,13 @@
 
 JSONEditor-CLI is a command-line tool for Node.js that provides an interactive JSON editing experience using [JSONEditor](https://github.com/josdejong/jsoneditor). Whether you need to quickly view or edit JSON files, JSONEditor-CLI makes it simple and efficient.
 
-<img src="jsoneditor-cli.png" alt="JSONEditor-CLI" width="600"/>
+<img src="jsone
+ditor-cli.png" alt="JSONEditor-CLI" width="600"/>
 
 ## Features
 
 - **JSON Editing that runs on command line**: Edit JSON files directly in a web-based interface without needing a text editor.
-- **Multiple Modes**: Supports different editing modes such as `tree`, `code`, `view`, and `text`.
+- **Multiple Modes**: Supports different editing modes such as `tree` (default), `text`, or `code`.
 - **Web Interface Option**: Launch a local web interface to edit JSON files in your browser.
 - **Lightweight & Fast**: Built with Node.js for a quick and responsive experience.
 
@@ -38,10 +39,13 @@ jsoneditor-cli [options] <file>
 ### Options
 
 - `-m, --mode <mode>`  
-  Set the editor mode. Available modes: `tree` (default), `code`, `view`, or `text`.
+  Set the editor mode. Available modes: `tree` (default), `text`, or `code`.
 
 - `-p, --port <number>`  
   Specify the port for the web interface (default: `5053`).
+
+- `-e, --engine <engine>`  
+  Set the engine. Available engines: `jsoneditor` (default), `svelte-jsoneditor`.
 
 - `-h, --help`  
   Display help and usage information.
