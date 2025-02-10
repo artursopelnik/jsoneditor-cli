@@ -48,8 +48,9 @@
 
       let editor // Ensure `editor` remains globally accessible
 
-      function initializeEditor(json, mode) {
+      function initializeEditor(json, mode, expand) {
         const saveButton = document.getElementById("saveButton")
+
         if (mode === "table") mode = "tree"
         if (mode === "code") mode = "text"
 
@@ -68,16 +69,22 @@
             content
           }
         })
+
+        if (expand) {
+          setTimeout(() => {
+            editor.expand([], () => true);
+          }, 1)
+        }
       }
 
-      async function fetchMode(url) {
+      async function fetchText(url) {
         try {
           const response = await fetch(url)
           if (!response.ok)
             throw new Error(`Error: ${response.status} ${response.statusText}`)
           return await response.text()
         } catch (error) {
-          console.error("Error fetching mode:", error)
+          console.error("Error fetching:", error)
           alert("Failed to load mode. Check the console for details.")
           return {}
         }
@@ -121,9 +128,10 @@
 
       document.getElementById("saveButton").addEventListener("click", saveJSON)
       ;(async function setup() {
-        const mode = (await fetchMode("/getMode")) || "tree"
+        const mode = (await fetchText("/getMode")) || "tree"
+        const expand = (await fetchText("/getExpand")) || true
         const json = await fetchJSON("/getJSON")
-        initializeEditor(json, mode)
+        initializeEditor(json, mode, expand)
       })()
     </script>
   </body>

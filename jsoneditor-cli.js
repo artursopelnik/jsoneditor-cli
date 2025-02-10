@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename)
 program
   .name("jsoneditor-cli")
   .description("The JSONEditor CLI is a common place for utilities.")
-  .version("1.0.3")
+  .version("1.0.4")
   .option("-p, --port <port>", "port", "5053")
   .option("-m, --mode <mode>", "mode (tree | text | code)", "tree")
   .option(
@@ -20,6 +20,7 @@ program
     "engine (jsoneditor | svelte-jsoneditor)",
     "jsoneditor"
   )
+    .option("-i, --initialExpand <expandAll>", "expandAll (true | false)", true)
 
 program
   .command("load")
@@ -30,8 +31,8 @@ program
       console.error("Error: The file must be a JSON file.")
       process.exit(1)
     }
-    const { port, mode, engine } = program.opts()
-    loadJson(port, mode, engine, json)
+    const { port, mode, engine, expand } = program.opts()
+    loadJson(port, mode, engine, expand, json)
   })
 
 program.parse()
@@ -52,9 +53,10 @@ function getDep(dep) {
  * @param {number} port - The port number on which the server should run.
  * @param {string} mode - The editor mode (e.g., "tree", "text", "code").
  * @param {string} engine - The editor engine ("svelte-jsoneditor" or "jsoneditor").
+ * @param {boolean} expand - The editor initial expand (e.g., true or false).
  * @param {string} json - The path to the JSON file to be loaded and modified.
  */
-function loadJson(port, mode, engine, json) {
+function loadJson(port, mode, engine, expand, json) {
   const jsonPath = path.resolve(json)
 
   if (!fs.existsSync(jsonPath)) {
@@ -65,10 +67,7 @@ function loadJson(port, mode, engine, json) {
   const app = express()
 
   // save static files
-  app.use(
-    "/jsoneditor",
-    express.static(getDep("node_modules/jsoneditor/dist"))
-  )
+  app.use("/jsoneditor", express.static(getDep("node_modules/jsoneditor/dist")))
   app.use(
     "/vanilla-jsoneditor",
     express.static(getDep("node_modules/vanilla-jsoneditor"))
@@ -90,6 +89,11 @@ function loadJson(port, mode, engine, json) {
   app.get("/getMode", (req, res) => {
     res.set("Content-Type", "text/plain")
     res.send(mode)
+  })
+
+  app.get("/getExpand", (req, res) => {
+    res.set("Content-Type", "text/plain")
+    res.send(expand)
   })
 
   app.get("/getJSON", (req, res) => {

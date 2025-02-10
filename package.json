@@ -1,6 +1,6 @@
 {
   "name": "jsoneditor-cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "Artur Sopelnik <artur.sopelnik93@gmail.com>",
   "license": "MIT",
   "type": "module",
@@ -15,7 +15,7 @@
   "scripts": {
     "start": "node ./jsoneditor-cli.js",
     "format": "prettier . --write --config .prettierrc.json",
-    "demo": "node ./jsoneditor-cli.js --engine svelte-jsoneditor --port 1112 --mode tree load tokens/tokens.json"
+    "demo": "node ./jsoneditor-cli.js --initialExpand false --engine svelte-jsoneditor --port 1112 --mode tree load tokens/tokens.json"
   },
   "dependencies": {
     "commander": "^13.1.0",
