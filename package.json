@@ -28,7 +28,8 @@
     "node": ">=14.8.0"
   },
   "files": [
-    "index.html",
+    "jsoneditor.html",
+    "svelte-jsoneditor.html",
     "jsoneditor-cli.js",
     "LICENSE",
     "readme.md"
