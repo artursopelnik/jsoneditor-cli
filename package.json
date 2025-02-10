@@ -1,6 +1,6 @@
 {
   "name": "jsoneditor-cli",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "author": "Artur Sopelnik <artur.sopelnik93@gmail.com>",
   "license": "MIT",
   "type": "module",
