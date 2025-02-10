@@ -46,6 +46,9 @@ jsoneditor-cli [options] <file>
 - `-e, --engine <engine>`  
   Set the engine. Available engines: `jsoneditor` (default), `svelte-jsoneditor`.
 
+- `-i, --initialExpand <initialExpand>`  
+  Set the initial expand. Available options: `true` (default), `false`.
+
 - `-h, --help`  
   Display help and usage information.
 
