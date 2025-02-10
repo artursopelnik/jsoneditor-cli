@@ -32,7 +32,7 @@ npm install jsoneditor-cli --save-dev
 To use JSONEditor-CLI, run the command followed by the JSON file you wish to edit:
 
 ```bash
-jsoneditor-cli [options] <file>
+jsoneditor-cli [options] load <file>
 ```
 
 ### Options
